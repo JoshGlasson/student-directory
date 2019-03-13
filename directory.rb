@@ -60,11 +60,18 @@ def save_students(filename)
 end
 
 def load_students(filename)
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    students_into_hash(name, cohort)
-  end
+  return if filename.nil? # get out of the method if it isn't given
+    if File.exists?(filename) # if it exists
+      file = File.open(filename, "r")
+      file.readlines.each do |line|
+        name, cohort = line.chomp.split(',')
+        students_into_hash(name, cohort)
+      end
+      puts "Loaded #{@students.count} from #{filename}"
+    else
+      puts "Sorry, #{filename} doesn't exist."
+      return
+    end
   file.close
 end
 
