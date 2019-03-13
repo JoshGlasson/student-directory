@@ -95,7 +95,6 @@ end
 def input_students
   name = STDIN.gets.chomp
   while !name.empty? do
-    name = STDIN.gets.chomp
     cohort = STDIN.gets.chomp
     students_into_hash(name, cohort)
     student_counter
