@@ -14,7 +14,13 @@ def interactive_menu
 end
 
 def print_menu
-  return "1. Input the students\n2. Show the students\n3. Save the list to csv file\n4. Load the list from csv file\n9. Exit"
+  return "
+  1. Input the students\n
+  2. Show the students\n
+  3. Save the list to csv file\n
+  4. Load the list from csv file\n
+  5. Remove from list\n
+  9. Exit"
 end
 
 def show_students
@@ -41,11 +47,30 @@ def process_menu_selection(selection)
       puts "You've selected option 4. Load Students from csv file"
       puts "Enter filename.csv"
       load_students(STDIN.gets.chomp)
+    when "5"
+      puts "You've selected option 5. Remove a student from the list"
+      puts "Enter student name and cohort"
+      remove_student(STDIN.gets.chomp, STDIN.gets.chomp)
     when "9"
       puts "You've selected option 9. Exit, Goodbye!"
       exit # this will cause the program to terminate
     else
       puts "I don't know what you meant, try again"
+  end
+end
+
+def remove_student(name, cohort)
+  if @students == []
+    puts "No students to remove"
+  else
+    students.each do |student|
+      if student[:name] == name && student[:cohort] == cohort.to_sym
+          students.delete_if{ |student| student[:name] == name && student[:cohort] == cohort.to_sym }
+          puts "You have removed #{name}"
+      else
+        puts "Student Does Not Exist"
+      end
+    end
   end
 end
 
