@@ -82,40 +82,49 @@ def save_students(filename)
     puts "Enter 1 or 2"
     input = STDIN.gets.chomp
     if input == "1"
-      file = File.open(filename, "w")
-      # iterate over the array of students
-      students.each do |student|
-        student_data = [student[:name], student[:cohort]]
-        csv_line = student_data.join(",")
-        file.puts csv_line
-      end
-      file.close
-      puts "#{filename} saved."
+      save_students_ow(filename)
     elsif input == "2"
-      # open the file for writing
-      file = File.open(filename, "a")
-      # iterate over the array of students
-        students.each do |student|
-          student_data = [student[:name], student[:cohort]]
-          @csv_line = student_data.join(",")
-        file.puts @csv_line
-      end
-      file.close
-      puts "#{filename} saved."
+      save_students_apnd(filename)
     else
       return
     end
   else
-    file = File.open(filename, "w")
-    # iterate over the array of students
+    save_students_new(filename)
+  end
+end
+
+def save_students_ow(filename)
+  file = File.open(filename, "w")
+  students.each do |student|
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
+  puts "#{filename} saved."
+end
+
+def save_students_apnd(filename)
+  file = File.open(filename, "a")
     students.each do |student|
       student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
-    end
-    file.close
-    puts "#{filename} saved."
+      @csv_line = student_data.join(",")
+    file.puts @csv_line
   end
+  file.close
+  puts "#{filename} saved."
+end
+
+def save_students_new(filename)
+  file = File.open(filename, "w")
+  # iterate over the array of students
+  students.each do |student|
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
+  puts "#{filename} saved."
 end
 
 
