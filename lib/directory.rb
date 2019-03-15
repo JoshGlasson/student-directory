@@ -206,5 +206,5 @@ def print_footer
 end
 end
 
-sd = StudentDirectory.new
-sd.interactive_menu
+#sd = StudentDirectory.new
+#sd.interactive_menu
