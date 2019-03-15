@@ -21,6 +21,7 @@ def print_menu
   4. Load the list from csv file\n
   5. Remove from list\n
   6. Delete csv file\n
+  7. Clear list\n
   9. Exit"
 end
 
@@ -61,6 +62,17 @@ def process_menu_selection(selection)
       puts "You've selected option 6. Delete csv file"
       puts "Enter name of file to delete"
       puts delete_csv_file_check(STDIN.gets.chomp)
+    when "7"
+      puts "You've selected option 7. Clear List"
+      puts "Are you sure?"
+      puts "yes or no"
+      input = STDIN.gets.chomp
+      if input == "yes"
+        puts clear_list
+      else
+        puts "Action cancelled"
+        return
+      end
     when "9"
       puts "You've selected option 9. Exit, Goodbye!"
       exit # this will cause the program to terminate
@@ -180,6 +192,11 @@ end
 
 def students_into_hash(name, cohort)
   @students << {name: name, cohort: cohort.to_sym}
+end
+
+def clear_list
+  @students = []
+  return "List cleared"
 end
 
 # user input for students
