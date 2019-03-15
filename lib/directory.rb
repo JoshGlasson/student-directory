@@ -50,7 +50,12 @@ def process_menu_selection(selection)
     when "5"
       puts "You've selected option 5. Remove a student from the list"
       puts "Enter student name and cohort"
-      remove_student(STDIN.gets.chomp, STDIN.gets.chomp)
+      if @students == []
+        puts "No students to remove"
+        return
+      else
+        remove_student(STDIN.gets.chomp, STDIN.gets.chomp)
+      end
     when "9"
       puts "You've selected option 9. Exit, Goodbye!"
       exit # this will cause the program to terminate
@@ -60,16 +65,12 @@ def process_menu_selection(selection)
 end
 
 def remove_student(name, cohort)
-  if @students == []
-    puts "No students to remove"
-  else
-    students.each do |student|
-      if student[:name] == name && student[:cohort] == cohort.to_sym
-          students.delete_if{ |student| student[:name] == name && student[:cohort] == cohort.to_sym }
-          puts "You have removed #{name}"
-      else
-        puts "Student Does Not Exist"
-      end
+  students.each do |student|
+    if student[:name] == name && student[:cohort] == cohort.to_sym
+      students.delete_if{ |student| student[:name] == name && student[:cohort] == cohort.to_sym }
+      puts "You have removed #{name}"
+    else
+      puts "Student Does Not Exist"
     end
   end
 end
