@@ -20,6 +20,7 @@ def print_menu
   3. Save the list to csv file\n
   4. Load the list from csv file\n
   5. Remove from list\n
+  6. Delete csv file\n
   9. Exit"
 end
 
@@ -42,11 +43,11 @@ def process_menu_selection(selection)
     when "3"
       puts "You've selected option 3. Save Students to csv file"
       puts "Enter filename.csv"
-      save_students(STDIN.gets.chomp)
+      puts save_students(STDIN.gets.chomp)
     when "4"
       puts "You've selected option 4. Load Students from csv file"
       puts "Enter filename.csv"
-      load_students(STDIN.gets.chomp)
+      puts load_students(STDIN.gets.chomp)
     when "5"
       puts "You've selected option 5. Remove a student from the list"
       puts "Enter student name and cohort"
@@ -54,8 +55,12 @@ def process_menu_selection(selection)
         puts "No students to remove"
         return
       else
-        remove_student(STDIN.gets.chomp, STDIN.gets.chomp)
+        puts remove_student(STDIN.gets.chomp, STDIN.gets.chomp)
       end
+    when "6"
+      puts "You've selected option 6. Delete csv file"
+      puts "Enter name of file to delete"
+      puts delete_csv_file_check(STDIN.gets.chomp)
     when "9"
       puts "You've selected option 9. Exit, Goodbye!"
       exit # this will cause the program to terminate
@@ -68,9 +73,9 @@ def remove_student(name, cohort)
   students.each do |student|
     if student[:name] == name && student[:cohort] == cohort.to_sym
       students.delete_if{ |student| student[:name] == name && student[:cohort] == cohort.to_sym }
-      puts "You have removed #{name}"
+      return "You have removed #{name}"
     else
-      puts "Student Does Not Exist"
+      return "Student Does Not Exist"
     end
   end
 end
@@ -82,14 +87,14 @@ def save_students(filename)
     puts "Enter 1 or 2"
     input = STDIN.gets.chomp
     if input == "1"
-      save_students_ow(filename)
+      puts save_students_ow(filename)
     elsif input == "2"
-      save_students_apnd(filename)
+      puts save_students_apnd(filename)
     else
       return
     end
   else
-    save_students_new(filename)
+    puts save_students_new(filename)
   end
 end
 
@@ -101,7 +106,7 @@ def save_students_ow(filename)
     file.puts csv_line
   end
   file.close
-  puts "#{filename} saved."
+  return "#{filename} saved."
 end
 
 def save_students_apnd(filename)
@@ -112,7 +117,7 @@ def save_students_apnd(filename)
     file.puts @csv_line
   end
   file.close
-  puts "#{filename} saved."
+  return "#{filename} saved."
 end
 
 def save_students_new(filename)
@@ -124,7 +129,7 @@ def save_students_new(filename)
     file.puts csv_line
   end
   file.close
-  puts "#{filename} saved."
+  return "#{filename} saved."
 end
 
 
@@ -137,10 +142,9 @@ def load_students(filename)
         name, cohort = line.chomp.split(',')
         students_into_hash(name, cohort)
       end
-      puts "Loaded #{students.count} from #{filename}"
+      return "Loaded #{students.count} from #{filename}"
     else
-      puts "Sorry, #{filename} doesn't exist."
-      return
+      return "Sorry, #{filename} doesn't exist."
     end
   file.close
 end
@@ -149,12 +153,29 @@ def try_load_students(filename)
   filename = ARGV.first # first argument from the command line
   return if filename.nil? # get out of the method if it isn't given
   if File.exists?(filename) # if it exists
-    load_students(filename)
-     puts "Loaded #{students.count} from #{filename}"
-  else # if it doesn't exist
-    puts "Sorry, #{filename} doesn't exist."
-    exit # quit the program
+    puts load_students(filename)
   end
+end
+
+def delete_csv_file_check(filename)
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exists?(filename) # if it exists
+    puts "Are you sure you want to delete #{filename}"
+    puts "Enter yes or no"
+    input = STDIN.gets.chomp
+    if input == "yes"
+      puts delete_csv_file(filename)
+    else
+      return "#{filename} has not been deleted, action cancelled"
+    end
+  else
+    return "File does not exist"
+  end
+end
+
+def delete_csv_file(filename)
+  File.delete(filename)
+  return "#{filename} has been deleted"
 end
 
 def students_into_hash(name, cohort)
@@ -206,5 +227,5 @@ def print_footer
 end
 end
 
-#sd = StudentDirectory.new
-#sd.interactive_menu
+sd = StudentDirectory.new
+sd.interactive_menu
