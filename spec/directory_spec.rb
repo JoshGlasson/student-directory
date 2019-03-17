@@ -84,4 +84,11 @@ describe StudentDirectory do
     expect(subject.students).to eq []
   end
 
+  it 'sorts and displays cohort by month' do
+    filename = "sorttest.csv"
+    subject.load_students(filename)
+    cohort = "January"
+    expect(subject.show_cohort(cohort)).to eq "In the #{cohort} cohort: Test Jan1, Test Jan2"
+  end
+
 end
