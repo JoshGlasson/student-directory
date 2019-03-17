@@ -22,7 +22,9 @@ def print_menu
   5. Remove from list\n
   6. Delete csv file\n
   7. Clear list\n
-  9. Exit"
+  8. Show certain cohort\n
+  9. Exit\n
+  "
 end
 
 def show_students
@@ -73,6 +75,10 @@ def process_menu_selection(selection)
         puts "Action cancelled"
         return
       end
+    when "8"
+      puts "You've selected option 8. Show certain cohort"
+      puts "Enter month"
+      show_cohort(STDIN.gets.chomp)
     when "9"
       puts "You've selected option 9. Exit, Goodbye!"
       exit # this will cause the program to terminate
@@ -199,6 +205,13 @@ def clear_list
   return "List cleared"
 end
 
+def show_cohort(cohort)
+  sort = students.select { |student| student[:cohort] == cohort.to_sym}
+  sort.each do |name|
+    puts name[:name]
+  end
+end
+
 # user input for students
 def input_students
   name = STDIN.gets.chomp
@@ -244,5 +257,5 @@ def print_footer
 end
 end
 
-#sd = StudentDirectory.new
-#sd.interactive_menu
+sd = StudentDirectory.new
+sd.interactive_menu
