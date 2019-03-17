@@ -216,6 +216,7 @@ def show_cohort(cohort)
   else
     return "In the #{cohort} cohort: #{sorta.join(", ")}"
   end
+  students.select { |student| student[:name]}
 end
 
 # user input for students
